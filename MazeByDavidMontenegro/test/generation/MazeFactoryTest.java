@@ -9,24 +9,25 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import generation.Order.Builder;
+
 public class MazeFactoryTest {
 	
 	private MazeFactory mazeFactory;
 	private StubOrder stubOrder;
 	private StubOrder stubOrder2;
-	private StubOrder stubOrder3;
 	private MazeContainer mazeConfig;
 	private MazeContainer mazeConfig2;
+	protected Builder builder;
+	protected Builder builder2;
 	
 	/**
-	 * This method setups the MazeFactory and StubOrder objects.
+	 * This method setups the builder fields.
 	 */
 	@Before
 	public void setUp() {
-		mazeFactory = new MazeFactory();
-		stubOrder = new StubOrder(13, 0, Order.Builder.DFS, true);
-		stubOrder2 = new StubOrder(13, 1, Order.Builder.Prim, false);
-		stubOrder3 = new StubOrder(13, 0, Order.Builder.Eller, true);
+		builder = Order.Builder.DFS;
+		builder2 = Order.Builder.Prim;
 	}
 	
 	/**
@@ -42,9 +43,22 @@ public class MazeFactoryTest {
 	 */
 	@Test
 	public void testMazeFactory() {
+		assertNotNull(builder);
+		assertNotNull(builder2);
+		mazeFactory = new MazeFactory();
+		stubOrder = new StubOrder(13, 0, builder, true);
+		stubOrder2 = new StubOrder(13, 1, builder2, false);
 		assertNotNull(mazeFactory);
 		assertNotNull(stubOrder);
 		assertNotNull(stubOrder2);
+		mazeFactory.order(stubOrder);
+		mazeFactory.waitTillDelivered();
+		mazeFactory.order(stubOrder2);
+		mazeFactory.waitTillDelivered();
+		mazeConfig = (MazeContainer)stubOrder.getMaze();
+		mazeConfig2 = (MazeContainer)stubOrder2.getMaze();
+		assertNotNull(mazeConfig);
+		assertNotNull(mazeConfig2);
 	}
 	
 	/**
@@ -56,6 +70,9 @@ public class MazeFactoryTest {
 	 */
 	@Test
 	public void testMazeFactoryOrder() {
+		mazeFactory = new MazeFactory();
+		stubOrder = new StubOrder(13, 0, builder, true);
+		stubOrder2 = new StubOrder(13, 1, builder2, false);
 		assertTrue(mazeFactory.order(stubOrder));
 		mazeFactory.waitTillDelivered();
 		mazeFactory.order(stubOrder);
@@ -63,6 +80,7 @@ public class MazeFactoryTest {
 		mazeFactory.waitTillDelivered();
 		assertTrue(mazeFactory.order(stubOrder2));
 		mazeFactory.waitTillDelivered();
+		StubOrder stubOrder3 = new StubOrder(13, 0, Order.Builder.Eller, true);
 		assertFalse(mazeFactory.order(stubOrder3));
 	}
 	
@@ -74,6 +92,9 @@ public class MazeFactoryTest {
 	 */
 	@Test
 	public void testMazeFactoryCancel() {
+		mazeFactory = new MazeFactory();
+		stubOrder = new StubOrder(13, 0, builder, true);
+		stubOrder2 = new StubOrder(13, 1, builder2, false);
 		mazeFactory.cancel();
 		assertTrue(mazeFactory.order(stubOrder));
 		mazeFactory.waitTillDelivered();
@@ -89,6 +110,9 @@ public class MazeFactoryTest {
 	 */
 	@Test
 	public void testMazeFactoryWaitTillDelivered() {
+		mazeFactory = new MazeFactory();
+		stubOrder = new StubOrder(13, 0, builder, true);
+		stubOrder2 = new StubOrder(13, 1, builder2, false);
 		mazeFactory.waitTillDelivered();
 		assertTrue(mazeFactory.order(stubOrder));
 	}
@@ -100,6 +124,9 @@ public class MazeFactoryTest {
 	 */
 	@Test
 	public void testMazeOneExit() {
+		mazeFactory = new MazeFactory();
+		stubOrder = new StubOrder(13, 0, builder, true);
+		stubOrder2 = new StubOrder(13, 1, builder2, false);
 		mazeFactory.order(stubOrder);
 		mazeFactory.waitTillDelivered();
 		mazeConfig = (MazeContainer)stubOrder.getMaze();
@@ -121,6 +148,9 @@ public class MazeFactoryTest {
 	 */
 	@Test
 	public void testMazeExitReachable() {
+		mazeFactory = new MazeFactory();
+		stubOrder = new StubOrder(13, 0, builder, true);
+		stubOrder2 = new StubOrder(13, 1, builder2, false);
 		mazeFactory.order(stubOrder);
 		mazeFactory.waitTillDelivered();
 		mazeConfig = (MazeContainer)stubOrder.getMaze();
@@ -139,6 +169,9 @@ public class MazeFactoryTest {
 	 */
 	@Test
 	public void testPerfectMaze() {
+		mazeFactory = new MazeFactory();
+		stubOrder = new StubOrder(13, 0, builder, true);
+		stubOrder2 = new StubOrder(13, 1, builder2, false);
 		mazeFactory.order(stubOrder);
 		mazeFactory.waitTillDelivered();
 		mazeConfig = (MazeContainer)stubOrder.getMaze();
