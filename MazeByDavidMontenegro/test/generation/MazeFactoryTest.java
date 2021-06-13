@@ -26,7 +26,7 @@ public class MazeFactoryTest {
 		mazeFactory = new MazeFactory();
 		stubOrder = new StubOrder(13, 0, Order.Builder.DFS, true);
 		stubOrder2 = new StubOrder(13, 1, Order.Builder.Prim, false);
-		stubOrder3 = new StubOrder(13, 0, Order.Builder.Kruskal, true);
+		stubOrder3 = new StubOrder(13, 0, Order.Builder.Eller, true);
 	}
 	
 	@After
@@ -35,7 +35,7 @@ public class MazeFactoryTest {
 	}
 	
 	@Test
-	public final void testMazeFactory() {
+	public void testMazeFactory() {
 		// Check if objects are not null
 		assertNotNull(mazeFactory);
 		assertNotNull(stubOrder);
@@ -43,7 +43,7 @@ public class MazeFactoryTest {
 	}
 	
 	@Test
-	public final void testMazeFactoryOrder() {
+	public void testMazeFactoryOrder() {
 		// Check if method returns true with DFS input
 		// Check if method returns false when one order is currently being processed
 		// Check if method returns true with Prim input
@@ -59,7 +59,7 @@ public class MazeFactoryTest {
 	}
 	
 	@Test
-	public final void testMazeFactoryCancel() {
+	public void testMazeFactoryCancel() {
 		// Check if calling method with no thread running does not interrupt future operations
 		// Check if calling method works when an order is being processed
 		mazeFactory.cancel();
@@ -71,7 +71,7 @@ public class MazeFactoryTest {
 	}
 	
 	@Test
-	public final void testMazeFactoryWaitTillDelivered() {
+	public void testMazeFactoryWaitTillDelivered() {
 		// Check if calling method with no thread running does not interrupt future operations
 		mazeFactory.waitTillDelivered();
 		assertTrue(mazeFactory.order(stubOrder));
@@ -79,7 +79,7 @@ public class MazeFactoryTest {
 	
 	
 	@Test
-	public final void testMazeOneExit() {
+	public void testMazeOneExit() {
 		// Order maze from the MazeFactory
 		// Wait until the order is done
 		// Get maze from the StubOrder
@@ -103,7 +103,7 @@ public class MazeFactoryTest {
 	}
 	
 	@Test
-	public final void testMazeExitReachable() {
+	public void testMazeExitReachable() {
 		// Order maze from the MazeFactory
 		// Wait until the order is done
 		// Get maze from the StubOrder
@@ -122,7 +122,7 @@ public class MazeFactoryTest {
 	}
 	
 	@Test
-	public final void testPerfectMaze() {
+	public void testPerfectMaze() {
 		// Order maze from the MazeFactory
 		// Wait until the order is done
 		// Get maze from the StubOrder
@@ -138,11 +138,10 @@ public class MazeFactoryTest {
 		Floorplan floorplan = mazeConfig.getFloorplan();
 		for (int i = 0; i < mazeConfig.getWidth(); i++) {
 			for (int j = 0; j < mazeConfig.getHeight(); j++) {
-				if (floorplan.hasWall(i, j, CardinalDirection.North) || floorplan.hasWall(i, j, CardinalDirection.South)
-						|| floorplan.hasWall(i, j, CardinalDirection.East) || floorplan.hasWall(i, j, CardinalDirection.West))
-					continue;
-				else
+				if (floorplan.isInRoom(i, j))
 					isPerfect = false;
+				else
+					continue;
 			}
 		}
 		assertTrue(isPerfect);
@@ -153,11 +152,10 @@ public class MazeFactoryTest {
 		Floorplan floorplan2 = mazeConfig2.getFloorplan();
 		for (int i = 0; i < mazeConfig2.getWidth(); i++) {
 			for (int j = 0; j < mazeConfig2.getHeight(); j++) {
-				if (floorplan2.hasWall(i, j, CardinalDirection.North) || floorplan2.hasWall(i, j, CardinalDirection.South)
-						|| floorplan2.hasWall(i, j, CardinalDirection.East) || floorplan2.hasWall(i, j, CardinalDirection.West))
-					continue;
-				else
+				if (floorplan2.isInRoom(i, j))
 					isPerfect2 = false;
+				else
+					continue;
 			}
 		}
 		assertFalse(isPerfect2);
