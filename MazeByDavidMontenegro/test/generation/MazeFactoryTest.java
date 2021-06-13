@@ -45,6 +45,31 @@ public class MazeFactoryTest {
 		// Check if objects are set to null
 	}
 	
+	@Test
+	public final void testMazeOneExit() {
+		// Keep track of number of exits
+		// Get distance from exit object of maze
+		// Loop through with maze width and height 
+		// If distance to the exit is 1 then increase number of exits
+		// Check if number of exits is 1
+	}
+	
+	@Test
+	public final void testMazeExitReachable() {
+		// Get distance from exit object of maze
+		// Loop through with maze width and height 
+		// Check if distance to the exit is always greater than 0
+	}
+	
+	@Test
+	public final void testPerfectMaze() {
+		// Keep track if maze is perfect
+		// Get distance from exit object of maze
+		// Loop through with maze width and height 
+		// If distance to the exit is 0 then maze is perfect is false
+		// Check if maze is perfect is true
+	}
+	
 	
 	
 }
