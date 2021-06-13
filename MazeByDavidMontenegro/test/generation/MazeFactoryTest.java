@@ -16,6 +16,7 @@ public class MazeFactoryTest {
 	private StubOrder stubOrder2;
 	private StubOrder stubOrder3;
 	private MazeContainer mazeConfig;
+	private MazeContainer mazeConfig2;
 	
 	@Before
 	public void setUp() {
@@ -24,7 +25,7 @@ public class MazeFactoryTest {
 		// Setup StubOrder2
 		mazeFactory = new MazeFactory();
 		stubOrder = new StubOrder(13, 0, Order.Builder.DFS, true);
-		stubOrder2 = new StubOrder(13, 0, Order.Builder.Prim, true);
+		stubOrder2 = new StubOrder(13, 1, Order.Builder.Prim, false);
 		stubOrder3 = new StubOrder(13, 0, Order.Builder.Kruskal, true);
 	}
 	
@@ -126,22 +127,40 @@ public class MazeFactoryTest {
 		// Wait until the order is done
 		// Get maze from the StubOrder
 		// Keep track if maze is perfect
-		// Get distance from exit object of maze
+		// Get floorplan object of maze
 		// Loop through with maze width and height 
-		// If distance to the exit is 0 then maze is perfect is false
+		// If any spot has no walls then maze is perfect is false
 		// Check if maze is perfect is true
 		mazeFactory.order(stubOrder);
 		mazeFactory.waitTillDelivered();
 		mazeConfig = (MazeContainer)stubOrder.getMaze();
 		boolean isPerfect = true;
-		Distance distance = mazeConfig.getMazedists();
+		Floorplan floorplan = mazeConfig.getFloorplan();
 		for (int i = 0; i < mazeConfig.getWidth(); i++) {
 			for (int j = 0; j < mazeConfig.getHeight(); j++) {
-				if (distance.getDistanceValue(i, j) == 0)
+				if (floorplan.hasWall(i, j, CardinalDirection.North) || floorplan.hasWall(i, j, CardinalDirection.South)
+						|| floorplan.hasWall(i, j, CardinalDirection.East) || floorplan.hasWall(i, j, CardinalDirection.West))
+					continue;
+				else
 					isPerfect = false;
 			}
 		}
 		assertTrue(isPerfect);
+		mazeFactory.order(stubOrder2);
+		mazeFactory.waitTillDelivered();
+		mazeConfig2 = (MazeContainer)stubOrder2.getMaze();
+		boolean isPerfect2 = true;
+		Floorplan floorplan2 = mazeConfig2.getFloorplan();
+		for (int i = 0; i < mazeConfig2.getWidth(); i++) {
+			for (int j = 0; j < mazeConfig2.getHeight(); j++) {
+				if (floorplan2.hasWall(i, j, CardinalDirection.North) || floorplan2.hasWall(i, j, CardinalDirection.South)
+						|| floorplan2.hasWall(i, j, CardinalDirection.East) || floorplan2.hasWall(i, j, CardinalDirection.West))
+					continue;
+				else
+					isPerfect2 = false;
+			}
+		}
+		assertFalse(isPerfect2);
 	}
 	
 	
