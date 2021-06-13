@@ -4,18 +4,20 @@ import java.util.ArrayList;
 
 public class MazeBuilderKruskal extends MazeBuilder implements Runnable {
 	
+	/**
+	 * Constructor.
+	 */
 	public MazeBuilderKruskal() {
-		// Call to super
 		super();
 	}
 
+	/**
+	 * This method generates pathways into the maze by using Kruskal's algorithm. The method creates a candidates list of 
+	 * wallboards and a matrix to keep track of slots. The methods loops through the candidates list randomly removing a wallboard.
+	 * If neighboring slot is not yet in the path then the wallboard is deleted. The matrix keeps track of the current path.
+	 */
 	@Override
 	protected void generatePathways() {
-		// Create candidates list of wallboards
-		// Create matrix to keep track of slots
-		// Go through candidates list randomly removing a wallboard
-		// If neighboring slot is not yet in the path then the wallboard is deleted
-		// The matrix keeps track of the current path
 		final ArrayList<Wallboard> candidates = new ArrayList<Wallboard>();
 		updateListOfWallboards(candidates);
 		
@@ -44,17 +46,19 @@ public class MazeBuilderKruskal extends MazeBuilder implements Runnable {
 		}
 	}
 	
+	/**
+	 * This method removes a random candidate from a list of candidates and returns it.
+	 */
 	private Wallboard extractWallboardFromCandidateSetRandomly(final ArrayList<Wallboard> candidates) {
-		// Remove a random candidate from list of candidates and return it
 		// Taken from MazeBuilderPrim class
 		return candidates.remove(random.nextIntWithinInterval(0, candidates.size()-1)); 
 	}
 	
+	/**
+	 * This method loops through the maze and sets a wallboard for each direction in each slot. Wallboards that can be
+	 * torn down are added to the candidates list.
+	 */
 	private void updateListOfWallboards(ArrayList<Wallboard> wallboards) {
-		// Loop through the maze
-		// Create a new wallboard
-		// Set wallboards to all directions of a slot
-		// Add wallboards that aren't on the maze borders to the candidates list
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				// Taken from MazeBuilderPrim class

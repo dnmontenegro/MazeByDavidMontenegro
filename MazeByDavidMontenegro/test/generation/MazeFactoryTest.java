@@ -18,36 +18,44 @@ public class MazeFactoryTest {
 	private MazeContainer mazeConfig;
 	private MazeContainer mazeConfig2;
 	
+	/**
+	 * This method setups the MazeFactory and StubOrder objects.
+	 */
 	@Before
 	public void setUp() {
-		// Setup MazeFactory
-		// Setup StubOrder
-		// Setup StubOrder2
 		mazeFactory = new MazeFactory();
 		stubOrder = new StubOrder(13, 0, Order.Builder.DFS, true);
 		stubOrder2 = new StubOrder(13, 1, Order.Builder.Prim, false);
 		stubOrder3 = new StubOrder(13, 0, Order.Builder.Eller, true);
 	}
 	
+	/**
+	 * This method occurs upon test exit.
+	 */
 	@After
 	public void tearDown() throws Exception {
-		// Test exit
 	}
 	
+	/**
+	 * This method checks if fields are not null.
+	 * Correct behavior: Fields are not null.
+	 */
 	@Test
 	public void testMazeFactory() {
-		// Check if objects are not null
 		assertNotNull(mazeFactory);
 		assertNotNull(stubOrder);
 		assertNotNull(stubOrder2);
 	}
 	
+	/**
+	 * This method checks if MazeFactory's order() method returns true with DFS input. It checks if order() returns false 
+	 * when one order is currently being processed. It checks if order() returns true with Prim input. It also checks if 
+	 * order() returns false when the algorithm input is not covered.
+	 * Correct behavior: Returns true for DFS input, returns false when order is currently being processed, returns true
+	 * for Prim input, returns false when algorithm input is not covered.
+	 */
 	@Test
 	public void testMazeFactoryOrder() {
-		// Check if method returns true with DFS input
-		// Check if method returns false when one order is currently being processed
-		// Check if method returns true with Prim input
-		// Check if method returns false when algorithm is not covered
 		assertTrue(mazeFactory.order(stubOrder));
 		mazeFactory.waitTillDelivered();
 		mazeFactory.order(stubOrder);
@@ -58,10 +66,14 @@ public class MazeFactoryTest {
 		assertFalse(mazeFactory.order(stubOrder3));
 	}
 	
+	/**
+	 * This method checks if calling MazeFactory's cancel() method with no thread running does not interrupt future operations. 
+	 * It checks if calling cancel() works when an order is being processed.
+	 * Correct behavior: After unnecessary use of cancel() an order can successfully be processed and cancel() properly cancels
+	 * an order.
+	 */
 	@Test
 	public void testMazeFactoryCancel() {
-		// Check if calling method with no thread running does not interrupt future operations
-		// Check if calling method works when an order is being processed
 		mazeFactory.cancel();
 		assertTrue(mazeFactory.order(stubOrder));
 		mazeFactory.waitTillDelivered();
@@ -70,24 +82,24 @@ public class MazeFactoryTest {
 		
 	}
 	
+	/**
+	 * This method checks if calling MazeFactory's waitTillDelivered() method with no thread running does not interrupt 
+	 * future operations.
+	 * Correct behavior: After unnecessary use of waitTillDelivered() an order can successfully be processed.
+	 */
 	@Test
 	public void testMazeFactoryWaitTillDelivered() {
-		// Check if calling method with no thread running does not interrupt future operations
 		mazeFactory.waitTillDelivered();
 		assertTrue(mazeFactory.order(stubOrder));
 	}
 	
-	
+	/**
+	 * This method checks if the maze has only one exit. After getting the maze and the maze distance, the method
+	 *  loops through the maze checking if the distance to the exit of any slot is one meaning it is right at the exit.
+	 *  Correct behavior: Number of exits is equal to one.
+	 */
 	@Test
 	public void testMazeOneExit() {
-		// Order maze from the MazeFactory
-		// Wait until the order is done
-		// Get maze from the StubOrder
-		// Keep track of number of exits
-		// Get distance from exit object of maze
-		// Loop through with maze width and height 
-		// If distance to the exit is 1 then increase number of exits
-		// Check if number of exits is 1
 		mazeFactory.order(stubOrder);
 		mazeFactory.waitTillDelivered();
 		mazeConfig = (MazeContainer)stubOrder.getMaze();
@@ -102,14 +114,13 @@ public class MazeFactoryTest {
 		assertEquals(1, numberOfExits);
 	}
 	
+	/**
+	 * This method checks if the maze's exit is reachable from any slot in the maze. After getting the maze and the maze distance, 
+	 * the method loops through the maze checking if the distance to the exit of every slot is greater than zero.
+	 *  Correct behavior: Distance to exit of all slots is greater than zero.
+	 */
 	@Test
 	public void testMazeExitReachable() {
-		// Order maze from the MazeFactory
-		// Wait until the order is done
-		// Get maze from the StubOrder
-		// Get distance from exit object of maze
-		// Loop through with maze width and height 
-		// Check if distance to the exit is always greater than 0
 		mazeFactory.order(stubOrder);
 		mazeFactory.waitTillDelivered();
 		mazeConfig = (MazeContainer)stubOrder.getMaze();
@@ -121,16 +132,13 @@ public class MazeFactoryTest {
 		}
 	}
 	
+	/**
+	 * This method checks if the maze is a perfect maze. After getting the maze and the maze floorplan, the method loops through 
+	 * the maze checking if any slot in the maze is in a room.
+	 *  Correct behavior: The maze with no rooms should be true while the maze with rooms should be false.
+	 */
 	@Test
 	public void testPerfectMaze() {
-		// Order maze from the MazeFactory
-		// Wait until the order is done
-		// Get maze from the StubOrder
-		// Keep track if maze is perfect
-		// Get floorplan object of maze
-		// Loop through with maze width and height 
-		// If any spot has no walls then maze is perfect is false
-		// Check if maze is perfect is true
 		mazeFactory.order(stubOrder);
 		mazeFactory.waitTillDelivered();
 		mazeConfig = (MazeContainer)stubOrder.getMaze();
