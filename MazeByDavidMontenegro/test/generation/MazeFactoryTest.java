@@ -14,6 +14,7 @@ public class MazeFactoryTest {
 	private MazeFactory mazeFactory;
 	private StubOrder stubOrder;
 	private StubOrder stubOrder2;
+	private StubOrder stubOrder3;
 	private MazeContainer mazeConfig;
 	
 	@Before
@@ -24,6 +25,7 @@ public class MazeFactoryTest {
 		mazeFactory = new MazeFactory();
 		stubOrder = new StubOrder(13, 0, Order.Builder.DFS, true);
 		stubOrder2 = new StubOrder(13, 0, Order.Builder.Prim, true);
+		stubOrder3 = new StubOrder(13, 0, Order.Builder.Kruskal, true);
 	}
 	
 	@After
@@ -40,12 +42,38 @@ public class MazeFactoryTest {
 	}
 	
 	@Test
-	public final void testMazeFactorOrder() {
-		// Check if method returns true with valid input
+	public final void testMazeFactoryOrder() {
+		// Check if method returns true with DFS input
 		// Check if method returns false when one order is currently being processed
+		// Check if method returns true with Prim input
+		// Check if method returns false when algorithm is not covered
 		assertTrue(mazeFactory.order(stubOrder));
+		mazeFactory.waitTillDelivered();
 		mazeFactory.order(stubOrder);
 		assertFalse(mazeFactory.order(stubOrder2));
+		mazeFactory.waitTillDelivered();
+		assertTrue(mazeFactory.order(stubOrder2));
+		mazeFactory.waitTillDelivered();
+		assertFalse(mazeFactory.order(stubOrder3));
+	}
+	
+	@Test
+	public final void testMazeFactoryCancel() {
+		// Check if calling method with no thread running does not interrupt future operations
+		// Check if calling method works when an order is being processed
+		mazeFactory.cancel();
+		assertTrue(mazeFactory.order(stubOrder));
+		mazeFactory.waitTillDelivered();
+		mazeFactory.order(stubOrder2);
+		mazeFactory.cancel();
+		
+	}
+	
+	@Test
+	public final void testMazeFactoryWaitTillDelivered() {
+		// Check if calling method with no thread running does not interrupt future operations
+		mazeFactory.waitTillDelivered();
+		assertTrue(mazeFactory.order(stubOrder));
 	}
 	
 	
