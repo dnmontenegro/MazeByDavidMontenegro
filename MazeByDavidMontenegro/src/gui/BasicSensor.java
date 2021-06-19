@@ -6,11 +6,11 @@ import gui.Robot.Direction;
 /**
  * Class: BasicSensor
  * 
- * Responsibilities:
+ * Responsibilities: Measure distance from an obstacle
  * 
  * Collaborators: DistanceSensor, MazeContainer, CardinalDirection
  * 
- * @author 2002d
+ * @author David Montenegro
  *
  */
 

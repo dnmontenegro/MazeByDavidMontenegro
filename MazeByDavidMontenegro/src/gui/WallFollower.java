@@ -4,11 +4,11 @@ import generation.Maze;
 /**
  * Class: WallFollower
  * 
- * Responsibilities:
+ * Responsibilities: Leads a robot by following the left hand wall
  * 
  * Collaborators: RobotDriver, BasicRobot, MazeContainer
  * 
- * @author 2002d
+ * @author David Montenegro
  *
  */
 

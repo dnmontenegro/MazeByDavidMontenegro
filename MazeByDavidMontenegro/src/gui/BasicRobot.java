@@ -4,11 +4,12 @@ import generation.CardinalDirection;
 /**
  * Class: BasicRobot
  * 
- * Responsibilities:
+ * Responsibilities: Perform move and rotate operations, obtain maze information like wall placements, utilize distance sensor
+ * to measure distance from obstacles
  * 
  * Collaborators: Robot, Controller, BasicSensor, MazeContainer, Floorplan, CardinalDirection
  * 
- * @author 2002d
+ * @author David Montenegro
  *
  */
 

@@ -4,11 +4,11 @@ import generation.Maze;
 /**
  * Class: Wizard
  * 
- * Responsibilities:
+ * Responsibilities: Leads a robot by using distances from exit to find closest path to the exit
  * 
  * Collaborators: RobotDriver, BasicRobot, MazeContainer
  * 
- * @author 2002d
+ * @author David Montenegro
  *
  */
 
