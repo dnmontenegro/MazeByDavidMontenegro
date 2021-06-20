@@ -1,7 +1,10 @@
 package gui;
 
+import generation.CardinalDirection;
 import generation.Maze;
 import generation.MazeContainer;
+import gui.Robot.Direction;
+import gui.Robot.Turn;
 /**
  * Class: WallFollower
  * 
@@ -22,8 +25,8 @@ public class WallFollower implements RobotDriver {
 	 * Constructor that setups initial objects.
 	 */
 	public WallFollower() {
-		//Set basicRobot to null
-		//Set maze to null
+		basicRobot = null;
+		maze = null;
 	}
 
 	/**
@@ -31,7 +34,7 @@ public class WallFollower implements RobotDriver {
 	 */
 	@Override
 	public void setRobot(Robot r) {
-		//Set the robot to the parameter
+		basicRobot = (BasicRobot) r;
 	}
 
 	/**
@@ -39,7 +42,7 @@ public class WallFollower implements RobotDriver {
 	 */
 	@Override
 	public void setMaze(Maze maze) {
-		//Set the maze to the parameter
+		this.maze = (MazeContainer) maze;
 	}
 
 	/**
@@ -47,16 +50,24 @@ public class WallFollower implements RobotDriver {
 	 */
 	@Override
 	public boolean drive2Exit() throws Exception {
-		//Loop until the robot is at the exit position
-			//Check if the robot has stopped
-				//If so throw exception
-			//Check if the there is a wall to the left
-				//If not then rotate left and move one step
-			//Else check if there is a wall in front of the robot
-				//If so then turn right
-			//Else move one step forward
-		//If at exit position rotate until robot is facing forward towards the exit and then return true
-		//Otherwise return false
+		while(!basicRobot.isAtExit()) {
+			if(basicRobot.hasStopped())
+				throw new Exception();
+			if(basicRobot.distanceToObstacle(Direction.LEFT) != 0) {
+				basicRobot.rotate(Turn.LEFT);
+				basicRobot.move(1);
+			}
+			else if(basicRobot.distanceToObstacle(Direction.FORWARD) == 0)
+				basicRobot.rotate(Turn.RIGHT);
+			else 
+				basicRobot.move(1);
+		}
+		if(basicRobot.isAtExit()) {
+			while(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD) == false) {
+				basicRobot.rotate(Turn.LEFT);
+			}
+			return true;
+		}
 		return false;
 	}
 	
@@ -65,16 +76,27 @@ public class WallFollower implements RobotDriver {
 	 */
 	@Override
 	public boolean drive1Step2Exit() throws Exception {
-		//Check if the robot has stopped
-			//If so throw exception
-		//Check if the there is a wall to the left
-			//If not then rotate left and move one step and return true
-		//Else check if there is a wall in front of the robot
-			//If so then turn right and return false
-		//Else move one step forward and return true
-		//If at exit position rotate until robot is facing forward towards the exit and then return false
-		//Otherwise return false
-		return false;
+		if(basicRobot.hasStopped())
+			throw new Exception();
+		if(basicRobot.isAtExit()) {
+			while(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD) == false) {
+				basicRobot.rotate(Turn.LEFT);
+			}
+			return false;
+		}
+		else if(basicRobot.distanceToObstacle(Direction.LEFT) != 0) {
+			basicRobot.rotate(Turn.LEFT);
+			basicRobot.move(1);
+			return true;
+		}
+		else if(basicRobot.distanceToObstacle(Direction.FORWARD) == 0) {
+			basicRobot.rotate(Turn.RIGHT);
+			return false;
+		}
+		else {
+			basicRobot.move(1);
+			return true;
+		}
 	}
 
 	/**
@@ -82,8 +104,7 @@ public class WallFollower implements RobotDriver {
 	 */
 	@Override
 	public float getEnergyConsumption() {
-		//Return 2000 subtracted by the battery level of the robot
-		return 0;
+		return 2000.0f - basicRobot.getBatteryLevel();
 	}
 
 	/**
@@ -91,8 +112,7 @@ public class WallFollower implements RobotDriver {
 	 */
 	@Override
 	public int getPathLength() {
-		//Return the odometer reading of the robot
-		return 0;
+		return basicRobot.getOdometerReading();
 	}
 
 }
