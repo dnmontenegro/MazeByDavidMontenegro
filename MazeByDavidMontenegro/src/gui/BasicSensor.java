@@ -40,7 +40,8 @@ public class BasicSensor implements DistanceSensor {
 		int distanceTraveled = 0;
 		while(maze.getFloorplan().hasNoWall(position[0], position[1], currentDirection) == true) {
 			if(maze.getFloorplan().isExitPosition(position[0], position[1]) == true)
-				return Integer.MAX_VALUE;
+				if(maze.isValidPosition(position[0] + currentDirection.getDirection()[0], position[1] + currentDirection.getDirection()[1]) == false)
+					return Integer.MAX_VALUE;
 			distanceTraveled++;
 			position[0] = position[0] + currentDirection.getDirection()[0];
 			position[1] = position[1] + currentDirection.getDirection()[1];

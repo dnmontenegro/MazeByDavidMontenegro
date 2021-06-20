@@ -68,7 +68,7 @@ public class WallFollowerTest {
 		mazeFactory.waitTillDelivered();
 		mazeConfig3 = (MazeContainer)stubOrder.getMaze();
 		
-		stubOrder = new StubOrder(14, 4, Order.Builder.DFS, false);
+		stubOrder = new StubOrder(13, 4, Order.Builder.DFS, true);
 		mazeFactory.order(stubOrder);
 		mazeFactory.waitTillDelivered();
 		mazeConfig4 = (MazeContainer)stubOrder.getMaze();

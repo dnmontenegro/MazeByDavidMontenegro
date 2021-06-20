@@ -63,11 +63,8 @@ public class WallFollower implements RobotDriver {
 				basicRobot.move(1);
 		}
 		if(basicRobot.isAtExit()) {
-			CardinalDirection previousDirection = basicRobot.getCurrentDirection().oppositeDirection();
 			while(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD) == false) {
 				basicRobot.rotate(Turn.LEFT);
-				if(basicRobot.getCurrentDirection() == previousDirection)
-					basicRobot.rotate(Turn.LEFT);
 			}
 			return true;
 		}
@@ -82,11 +79,8 @@ public class WallFollower implements RobotDriver {
 		if(basicRobot.hasStopped())
 			throw new Exception();
 		if(basicRobot.isAtExit()) {
-			CardinalDirection previousDirection = basicRobot.getCurrentDirection().oppositeDirection();
 			while(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD) == false) {
 				basicRobot.rotate(Turn.LEFT);
-				if(basicRobot.getCurrentDirection() == previousDirection)
-					basicRobot.rotate(Turn.LEFT);
 			}
 			return false;
 		}
