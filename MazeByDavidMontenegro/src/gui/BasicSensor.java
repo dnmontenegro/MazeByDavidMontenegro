@@ -38,7 +38,7 @@ public class BasicSensor implements DistanceSensor {
 			throw new Exception();
 		int[] position = currentPosition;
 		int distanceTraveled = 0;
-		while(maze.getFloorplan().hasNoWall(position[0], position[1], currentDirection)) {
+		while(maze.getFloorplan().hasNoWall(position[0], position[1], currentDirection) == true) {
 			if(maze.getFloorplan().isExitPosition(position[0], position[1]) == true)
 				return Integer.MAX_VALUE;
 			distanceTraveled++;

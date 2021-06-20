@@ -1,6 +1,7 @@
 package gui;
 
 import gui.Constants.UserInput;
+import gui.Robot.Direction;
 
 import java.util.Random;
 
@@ -182,6 +183,20 @@ public class Controller {
         currentState = states[2];
         currentState.setMazeConfiguration(config);
         currentState.start(this, panel);
+        if(getDriver() != null) {
+        	robot.setController(this);
+			BasicSensor sensorForward = new BasicSensor();
+			robot.addDistanceSensor(sensorForward, Direction.FORWARD);
+			BasicSensor sensorLeft = new BasicSensor();
+			robot.addDistanceSensor(sensorLeft, Direction.LEFT);
+        	driver.setRobot(robot);
+        	driver.setMaze(config);
+        	try {
+				driver.drive2Exit();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+        }
     }
     /**
      * Switches the controller to the final screen

@@ -72,6 +72,7 @@ public class Wizard implements RobotDriver {
 							basicRobot.rotate(Turn.RIGHT);
 							break;
 					}
+					break;
 				case South:
 					switch(neighborDirection) {
 						case North:
@@ -85,7 +86,8 @@ public class Wizard implements RobotDriver {
 						case West:
 							basicRobot.rotate(Turn.LEFT);
 							break;
-					}	
+					}
+					break;
 				case East:
 					switch(neighborDirection) {
 						case North:
@@ -100,6 +102,7 @@ public class Wizard implements RobotDriver {
 							basicRobot.rotate(Turn.AROUND);
 							break;
 					}
+					break;
 				case West:
 					switch(neighborDirection) {
 						case North:
@@ -114,12 +117,16 @@ public class Wizard implements RobotDriver {
 						case West:
 							break;
 					}
+					break;
 			}
 			basicRobot.move(1);
 		}
 		if(basicRobot.isAtExit()) {
+			CardinalDirection previousDirection = basicRobot.getCurrentDirection().oppositeDirection();
 			while(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD) == false) {
 				basicRobot.rotate(Turn.LEFT);
+				if(basicRobot.getCurrentDirection() == previousDirection)
+					basicRobot.rotate(Turn.LEFT);
 			}
 			return true;
 		}
@@ -135,8 +142,11 @@ public class Wizard implements RobotDriver {
 		if(basicRobot.hasStopped())
 			throw new Exception();
 		if(basicRobot.isAtExit()) {
+			CardinalDirection previousDirection = basicRobot.getCurrentDirection().oppositeDirection();
 			while(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD) == false) {
 				basicRobot.rotate(Turn.LEFT);
+				if(basicRobot.getCurrentDirection() == previousDirection)
+					basicRobot.rotate(Turn.LEFT);
 			}
 			return true;
 		}
@@ -159,6 +169,7 @@ public class Wizard implements RobotDriver {
 							basicRobot.rotate(Turn.RIGHT);
 							break;
 					}
+					break;
 				case South:
 					switch(neighborDirection) {
 						case North:
@@ -173,6 +184,7 @@ public class Wizard implements RobotDriver {
 							basicRobot.rotate(Turn.LEFT);
 							break;
 					}	
+					break;
 				case East:
 					switch(neighborDirection) {
 						case North:
@@ -187,6 +199,7 @@ public class Wizard implements RobotDriver {
 							basicRobot.rotate(Turn.AROUND);
 							break;
 					}
+					break;
 				case West:
 					switch(neighborDirection) {
 						case North:
@@ -201,6 +214,7 @@ public class Wizard implements RobotDriver {
 						case West:
 							break;
 					}
+					break;
 			}
 			basicRobot.move(1);
 			return true;
