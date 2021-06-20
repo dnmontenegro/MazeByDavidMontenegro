@@ -57,18 +57,22 @@ public class BasicRobot implements Robot {
 			case LEFT:
 				sensorLeft = (BasicSensor) sensor;
 				sensorLeft.setSensorDirection(mountedDirection);
+				sensorLeft.setMaze(controller.getMazeConfiguration());
 				break;
 			case RIGHT:
 				sensorRight = (BasicSensor) sensor;
 				sensorRight.setSensorDirection(mountedDirection);
+				sensorRight.setMaze(controller.getMazeConfiguration());
 				break;
 			case FORWARD:
 				sensorForward = (BasicSensor) sensor;
 				sensorForward.setSensorDirection(mountedDirection);
+				sensorForward.setMaze(controller.getMazeConfiguration());
 				break;
 			case BACKWARD:
 				sensorBackward = (BasicSensor) sensor;
 				sensorBackward.setSensorDirection(mountedDirection);
+				sensorBackward.setMaze(controller.getMazeConfiguration());
 				break;
 		}
 	}
@@ -179,7 +183,11 @@ public class BasicRobot implements Robot {
 	public void move(int distance) {
 		for (int i = 0; i < distance; i++) {
 			if(hasStopped() == false && getBatteryLevel() > getEnergyForStepForward()) {
-				controller.keyDown(UserInput.JUMP, 0);
+				if(distanceToObstacle(Direction.FORWARD) == 0) {
+					stopped = true;
+					break;
+				}
+				controller.keyDown(UserInput.UP, 0);
 				setBatteryLevel(getBatteryLevel() - getEnergyForStepForward());
 				odometer++;
 			}
@@ -247,18 +255,18 @@ public class BasicRobot implements Robot {
 	@Override
 	public int distanceToObstacle(Direction direction) throws UnsupportedOperationException {
 		CardinalDirection sensorDirection = getCurrentDirection();
-		int distance = 0;
+		int distance = -1;
 		switch(direction) {
 			case LEFT:
 				try {
-					distance = sensorLeft.distanceToObstacle(getCurrentPosition(), sensorDirection.oppositeDirection().rotateClockwise(), batteryLevel);
+					distance = sensorLeft.distanceToObstacle(getCurrentPosition(), sensorDirection.rotateClockwise(), batteryLevel);
 				} catch (Exception e) {
 					throw new UnsupportedOperationException();
 				}
 				break;
 			case RIGHT:
 				try {
-					distance = sensorRight.distanceToObstacle(getCurrentPosition(), sensorDirection.rotateClockwise(), batteryLevel);
+					distance = sensorRight.distanceToObstacle(getCurrentPosition(), sensorDirection.oppositeDirection().rotateClockwise(), batteryLevel);
 				} catch (Exception e) {
 					throw new UnsupportedOperationException();
 				}
