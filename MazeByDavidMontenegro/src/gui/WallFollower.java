@@ -84,19 +84,23 @@ public class WallFollower implements RobotDriver {
 			}
 			return false;
 		}
-		else if(basicRobot.distanceToObstacle(Direction.LEFT) != 0) {
-			basicRobot.rotate(Turn.LEFT);
-			basicRobot.move(1);
-			return true;
+		else if(!basicRobot.isAtExit()) {
+			if(basicRobot.distanceToObstacle(Direction.LEFT) != 0) {
+				basicRobot.rotate(Turn.LEFT);
+				basicRobot.move(1);
+				return true;
+			}
+			else if(basicRobot.distanceToObstacle(Direction.FORWARD) == 0) {
+				basicRobot.rotate(Turn.RIGHT);
+				return false;
+			}
+			else {
+				basicRobot.move(1);
+				return true;
+			}
 		}
-		else if(basicRobot.distanceToObstacle(Direction.FORWARD) == 0) {
-			basicRobot.rotate(Turn.RIGHT);
+		else 
 			return false;
-		}
-		else {
-			basicRobot.move(1);
-			return true;
-		}
 	}
 
 	/**

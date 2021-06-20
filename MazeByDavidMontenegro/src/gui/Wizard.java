@@ -1,7 +1,10 @@
 package gui;
 
+import generation.CardinalDirection;
 import generation.Maze;
 import generation.MazeContainer;
+import gui.Robot.Direction;
+import gui.Robot.Turn;
 /**
  * Class: Wizard
  * 
@@ -22,8 +25,8 @@ public class Wizard implements RobotDriver {
 	 * Constructor that setups initial objects.
 	 */
 	public Wizard() {
-		//Set basicRobot to null
-		//Set maze to null
+		basicRobot = null;
+		maze = null;
 	}
 
 	/**
@@ -31,7 +34,7 @@ public class Wizard implements RobotDriver {
 	 */
 	@Override
 	public void setRobot(Robot r) {
-		//Set the robot to the parameter
+		basicRobot = (BasicRobot) r;
 	}
 
 	/**
@@ -39,7 +42,7 @@ public class Wizard implements RobotDriver {
 	 */
 	@Override
 	public void setMaze(Maze maze) {
-		//Set the maze to the parameter
+		this.maze = (MazeContainer) maze;
 	}
 	
 	/**
@@ -48,13 +51,78 @@ public class Wizard implements RobotDriver {
 	 */
 	@Override
 	public boolean drive2Exit() throws Exception {
-		//Loop until the robot is at the exit position
-			//Check if the robot has stopped
-				//If so throw exception
-			//Get the neighbor closest to the exit
-			//Move one step to the neighbor closest to the exit
-		//If at exit position rotate until robot is facing forward towards the exit and then return true
-		//Otherwise return false
+		while(!basicRobot.isAtExit()) {
+			if(basicRobot.hasStopped())
+				throw new Exception();
+			int[] neighbor = maze.getNeighborCloserToExit(basicRobot.getCurrentPosition()[0], basicRobot.getCurrentPosition()[1]);
+			CardinalDirection neighborDirection = CardinalDirection.getDirection(neighbor[0]-basicRobot.getCurrentPosition()[0], 
+					neighbor[1]-basicRobot.getCurrentPosition()[1]);
+			switch(basicRobot.getCurrentDirection()) {
+				case North:
+					switch(neighborDirection) {
+						case North:
+							break;
+						case South:
+							basicRobot.rotate(Turn.AROUND);
+							break;
+						case East:
+							basicRobot.rotate(Turn.LEFT);
+							break;
+						case West:
+							basicRobot.rotate(Turn.RIGHT);
+							break;
+					}
+				case South:
+					switch(neighborDirection) {
+						case North:
+							basicRobot.rotate(Turn.AROUND);
+							break;
+						case South:
+							break;
+						case East:
+							basicRobot.rotate(Turn.RIGHT);
+							break;
+						case West:
+							basicRobot.rotate(Turn.LEFT);
+							break;
+					}	
+				case East:
+					switch(neighborDirection) {
+						case North:
+							basicRobot.rotate(Turn.RIGHT);
+							break;
+						case South:
+							basicRobot.rotate(Turn.LEFT);
+							break;
+						case East:
+							break;
+						case West:
+							basicRobot.rotate(Turn.AROUND);
+							break;
+					}
+				case West:
+					switch(neighborDirection) {
+						case North:
+							basicRobot.rotate(Turn.LEFT);
+							break;
+						case South:
+							basicRobot.rotate(Turn.RIGHT);
+							break;
+						case East:
+							basicRobot.rotate(Turn.AROUND);
+							break;
+						case West:
+							break;
+					}
+			}
+			basicRobot.move(1);
+		}
+		if(basicRobot.isAtExit()) {
+			while(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD) == false) {
+				basicRobot.rotate(Turn.LEFT);
+			}
+			return true;
+		}
 		return false;
 	}
 	
@@ -64,13 +132,81 @@ public class Wizard implements RobotDriver {
 	 */
 	@Override
 	public boolean drive1Step2Exit() throws Exception {
-		//Check if the robot has stopped
-			//If so throw exception
-		//Get the neighbor closest to the exit
-		//Move one step to the neighbor closest to the exit and return true
-		//If at exit position rotate until robot is facing forward towards the exit and then return false
-		//Otherwise return false
-		return false;
+		if(basicRobot.hasStopped())
+			throw new Exception();
+		if(basicRobot.isAtExit()) {
+			while(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD) == false) {
+				basicRobot.rotate(Turn.LEFT);
+			}
+			return true;
+		}
+		else if(!basicRobot.isAtExit()) {
+			int[] neighbor = maze.getNeighborCloserToExit(basicRobot.getCurrentPosition()[0], basicRobot.getCurrentPosition()[1]);
+			CardinalDirection neighborDirection = CardinalDirection.getDirection(neighbor[0]-basicRobot.getCurrentPosition()[0], 
+					neighbor[1]-basicRobot.getCurrentPosition()[1]);
+			switch(basicRobot.getCurrentDirection()) {
+				case North:
+					switch(neighborDirection) {
+						case North:
+							break;
+						case South:
+							basicRobot.rotate(Turn.AROUND);
+							break;
+						case East:
+							basicRobot.rotate(Turn.LEFT);
+							break;
+						case West:
+							basicRobot.rotate(Turn.RIGHT);
+							break;
+					}
+				case South:
+					switch(neighborDirection) {
+						case North:
+							basicRobot.rotate(Turn.AROUND);
+							break;
+						case South:
+							break;
+						case East:
+							basicRobot.rotate(Turn.RIGHT);
+							break;
+						case West:
+							basicRobot.rotate(Turn.LEFT);
+							break;
+					}	
+				case East:
+					switch(neighborDirection) {
+						case North:
+							basicRobot.rotate(Turn.RIGHT);
+							break;
+						case South:
+							basicRobot.rotate(Turn.LEFT);
+							break;
+						case East:
+							break;
+						case West:
+							basicRobot.rotate(Turn.AROUND);
+							break;
+					}
+				case West:
+					switch(neighborDirection) {
+						case North:
+							basicRobot.rotate(Turn.LEFT);
+							break;
+						case South:
+							basicRobot.rotate(Turn.RIGHT);
+							break;
+						case East:
+							basicRobot.rotate(Turn.AROUND);
+							break;
+						case West:
+							break;
+					}
+			}
+			basicRobot.move(1);
+			return true;
+		}
+		else
+			return false;
 	}
 
 	/**
@@ -78,8 +214,7 @@ public class Wizard implements RobotDriver {
 	 */
 	@Override
 	public float getEnergyConsumption() {
-		//Return 2000 subtracted by the battery level of the robot
-		return 0;
+		return 2000.0f - basicRobot.getBatteryLevel();
 	}
 
 	/**
@@ -87,8 +222,7 @@ public class Wizard implements RobotDriver {
 	 */
 	@Override
 	public int getPathLength() {
-		//Return the odometer reading of the robot
-		return 0;
+		return basicRobot.getOdometerReading();
 	}
 
 }
