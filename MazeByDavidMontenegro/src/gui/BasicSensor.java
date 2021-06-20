@@ -18,14 +18,14 @@ import gui.Robot.Direction;
 public class BasicSensor implements DistanceSensor {
 	
 	private MazeContainer maze;
-	private CardinalDirection direction;
+	private Direction direction;
 
 	/**
 	 * Constructor that setups initial objects.
 	 */
 	public BasicSensor() {
-		//Set maze to null
-		//Set direction to null
+		maze = null;
+		direction = null;
 	}
 
 	/**
@@ -34,14 +34,18 @@ public class BasicSensor implements DistanceSensor {
 	@Override
 	public int distanceToObstacle(int[] currentPosition, CardinalDirection currentDirection, float[] powersupply)
 			throws Exception {
-		//Check if battery level is 0
-		//Keep track of current position
-		//Keep track of distance traveled
-		//Keep checking for walls in the current direction
-		//If position being searched is exit then return max int value
-		//Else increase distance traveled and advance position
-		//Return the distance
-		return 0;
+		if(powersupply[0] < getEnergyConsumptionForSensing())
+			throw new Exception();
+		int[] position = currentPosition;
+		int distanceTraveled = 0;
+		while(maze.getFloorplan().hasNoWall(position[0], position[1], currentDirection)) {
+			if(maze.getFloorplan().isExitPosition(position[0], position[1]) == true)
+				return Integer.MAX_VALUE;
+			distanceTraveled++;
+			position[0] = position[0] + currentDirection.getDirection()[0];
+			position[1] = position[1] + currentDirection.getDirection()[1];
+		}
+		return distanceTraveled;
 	}
 
 	/**
@@ -49,7 +53,7 @@ public class BasicSensor implements DistanceSensor {
 	 */
 	@Override
 	public void setMaze(Maze maze) {
-		//Set the maze to the parameter
+		this.maze = (MazeContainer) maze;
 	}
 	
 	/**
@@ -57,7 +61,7 @@ public class BasicSensor implements DistanceSensor {
 	 */
 	@Override
 	public void setSensorDirection(Direction mountedDirection) {
-		//Set the direction to the parameter
+		direction = mountedDirection;
 	}
 
 	/**
@@ -65,8 +69,7 @@ public class BasicSensor implements DistanceSensor {
 	 */
 	@Override
 	public float getEnergyConsumptionForSensing() {
-		//Return 1.0f
-		return 0;
+		return 1.0f;
 	}
 
 	/**
@@ -75,7 +78,7 @@ public class BasicSensor implements DistanceSensor {
 	@Override
 	public void startFailureAndRepairProcess(int meanTimeBetweenFailures, int meanTimeToRepair)
 			throws UnsupportedOperationException {
-		//Throw new UnsupportedOperationException
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -83,7 +86,7 @@ public class BasicSensor implements DistanceSensor {
 	 */
 	@Override
 	public void stopFailureAndRepairProcess() throws UnsupportedOperationException {
-		//Throw new UnsupportedOperationException
+		throw new UnsupportedOperationException();
 	}
 
 }

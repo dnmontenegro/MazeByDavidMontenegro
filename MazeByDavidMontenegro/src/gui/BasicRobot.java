@@ -56,15 +56,19 @@ public class BasicRobot implements Robot {
 		switch(mountedDirection) {
 			case LEFT:
 				sensorLeft = (BasicSensor) sensor;
+				sensorLeft.setSensorDirection(mountedDirection);
 				break;
 			case RIGHT:
 				sensorRight = (BasicSensor) sensor;
+				sensorRight.setSensorDirection(mountedDirection);
 				break;
 			case FORWARD:
 				sensorForward = (BasicSensor) sensor;
+				sensorForward.setSensorDirection(mountedDirection);
 				break;
 			case BACKWARD:
 				sensorBackward = (BasicSensor) sensor;
+				sensorBackward.setSensorDirection(mountedDirection);
 				break;
 		}
 	}
