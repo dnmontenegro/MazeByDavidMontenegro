@@ -326,6 +326,10 @@ public class BasicRobotTest {
 		CardinalDirection direction = basicRobot.getCurrentDirection();
 		basicRobot.rotate(Turn.RIGHT);
 		assertNotEquals(direction, basicRobot.getCurrentDirection());
+		basicRobot.rotate(Turn.AROUND);
+		assertNotEquals(direction, basicRobot.getCurrentDirection());
+		basicRobot.rotate(Turn.RIGHT);
+		assertEquals(direction, basicRobot.getCurrentDirection());
 	}
 	
 	/**

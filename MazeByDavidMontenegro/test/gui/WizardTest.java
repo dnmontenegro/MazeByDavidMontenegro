@@ -15,19 +15,19 @@ import generation.StubOrder;
 import gui.Robot.Direction;
 
 /**
- * Class: WallFollowerTest
+ * Class: WizardTest
  * 
- * Responsibilities: Test the wall follower algorithm
+ * Responsibilities: Test the wizard algorithm
  * 
- * Collaborators: WallFollower
+ * Collaborators: Wizard
  * 
  * @author David Montenegro
  *
  */
 
-public class WallFollowerTest {
+public class WizardTest {
 
-	private WallFollower wallFollower;
+	private Wizard wizard;
 	private MazeFactory mazeFactory;
 	private StubOrder stubOrder;
 	private MazeContainer mazeConfig0;
@@ -70,7 +70,7 @@ public class WallFollowerTest {
 		mazeConfig4 = (MazeContainer)stubOrder.getMaze();
 		controller = new Controller();
 		basicRobot = new BasicRobot();
-		wallFollower = new WallFollower();
+		wizard = new Wizard();
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class WallFollowerTest {
 	 * Correct behavior: Fields are not null.
 	 */
 	@Test
-	public void testWallFollower() {
+	public void testWizard() {
 		assertNotNull(mazeFactory);
 		assertNotNull(stubOrder);
 		assertNotNull(mazeConfig0);
@@ -95,7 +95,7 @@ public class WallFollowerTest {
 		assertNotNull(mazeConfig4);
 		assertNotNull(controller);
 		assertNotNull(basicRobot);
-		assertNotNull(wallFollower);
+		assertNotNull(wizard);
 	}
 	
 	/**
@@ -106,14 +106,14 @@ public class WallFollowerTest {
 	public void testDrive2Exit3() {
 		controller.switchFromGeneratingToPlaying(mazeConfig3);
 		basicRobot.setController(controller);
-		wallFollower.setRobot(basicRobot);
-		wallFollower.setMaze(mazeConfig3);
+		wizard.setRobot(basicRobot);
+		wizard.setMaze(mazeConfig3);
 		BasicSensor sensorForward = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
 		try {
-			wallFollower.drive2Exit();
+			wizard.drive2Exit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -128,46 +128,81 @@ public class WallFollowerTest {
 	public void testDrive2Exit4() {
 		controller.switchFromGeneratingToPlaying(mazeConfig4);
 		basicRobot.setController(controller);
-		wallFollower.setRobot(basicRobot);
-		wallFollower.setMaze(mazeConfig4);
+		wizard.setRobot(basicRobot);
+		wizard.setMaze(mazeConfig4);
 		BasicSensor sensorForward = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
 		try {
-			wallFollower.drive2Exit();
+			wizard.drive2Exit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertFalse(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD));
+		assertTrue(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD));
 	}
 	
 	/**
 	 * This method checks if the drive1Step2Exit() method works.
-	 * Correct behavior: false when robot does not move 1 step toward the exit, true when it does
+	 * Correct behavior: true when robot moves 1 step toward the exit
 	 */
 	@Test
 	public void testDrive1Step2Exit0() {
 		controller.switchFromGeneratingToPlaying(mazeConfig0);
 		basicRobot.setController(controller);
-		wallFollower.setRobot(basicRobot);
-		wallFollower.setMaze(mazeConfig0);
+		wizard.setRobot(basicRobot);
+		wizard.setMaze(mazeConfig0);
 		BasicSensor sensorForward = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
 		try {
-			assertFalse(wallFollower.drive1Step2Exit());
+			assertTrue(wizard.drive1Step2Exit());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
-			assertTrue(wallFollower.drive1Step2Exit());
+			assertTrue(wizard.drive1Step2Exit());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
-			assertTrue(wallFollower.drive1Step2Exit());
+			assertTrue(wizard.drive1Step2Exit());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			assertTrue(wizard.drive1Step2Exit());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			assertTrue(wizard.drive1Step2Exit());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			assertTrue(wizard.drive1Step2Exit());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			assertTrue(wizard.drive1Step2Exit());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			assertTrue(wizard.drive1Step2Exit());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			assertTrue(wizard.drive1Step2Exit());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			assertTrue(wizard.drive1Step2Exit());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -181,21 +216,21 @@ public class WallFollowerTest {
 	public void testDrive1Step2Exit1() {
 		controller.switchFromGeneratingToPlaying(mazeConfig1);
 		basicRobot.setController(controller);
-		wallFollower.setRobot(basicRobot);
-		wallFollower.setMaze(mazeConfig1);
+		wizard.setRobot(basicRobot);
+		wizard.setMaze(mazeConfig1);
 		BasicSensor sensorForward = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
 		while(!basicRobot.isAtExit()) {
 			try {
-				wallFollower.drive1Step2Exit();
+				wizard.drive1Step2Exit();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		try {
-			assertFalse(wallFollower.drive1Step2Exit());
+			assertFalse(wizard.drive1Step2Exit());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -210,18 +245,18 @@ public class WallFollowerTest {
 	public void testGetEnergyConsumption0() {
 		controller.switchFromGeneratingToPlaying(mazeConfig0);
 		basicRobot.setController(controller);
-		wallFollower.setRobot(basicRobot);
-		wallFollower.setMaze(mazeConfig0);
+		wizard.setRobot(basicRobot);
+		wizard.setMaze(mazeConfig0);
 		BasicSensor sensorForward = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
 		try {
-			wallFollower.drive2Exit();
+			wizard.drive2Exit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertTrue(wallFollower.getEnergyConsumption() > 0);
+		assertTrue(wizard.getEnergyConsumption() > 0);
 	}
 	
 	/**
@@ -233,18 +268,18 @@ public class WallFollowerTest {
 	public void testGetPathLength0() {
 		controller.switchFromGeneratingToPlaying(mazeConfig0);
 		basicRobot.setController(controller);
-		wallFollower.setRobot(basicRobot);
-		wallFollower.setMaze(mazeConfig0);
+		wizard.setRobot(basicRobot);
+		wizard.setMaze(mazeConfig0);
 		BasicSensor sensorForward = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
 		try {
-			wallFollower.drive2Exit();
+			wizard.drive2Exit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertTrue(wallFollower.getPathLength() > 0);
+		assertTrue(wizard.getPathLength() > 0);
 	}
 	
 	/**
@@ -256,18 +291,18 @@ public class WallFollowerTest {
 	public void testGetPathLength1() {
 		controller.switchFromGeneratingToPlaying(mazeConfig1);
 		basicRobot.setController(controller);
-		wallFollower.setRobot(basicRobot);
-		wallFollower.setMaze(mazeConfig1);
+		wizard.setRobot(basicRobot);
+		wizard.setMaze(mazeConfig1);
 		BasicSensor sensorForward = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
 		try {
-			wallFollower.drive2Exit();
+			wizard.drive2Exit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertTrue(wallFollower.getPathLength() > 0);
+		assertTrue(wizard.getPathLength() > 0);
 	}
 	
 	/**
@@ -279,17 +314,18 @@ public class WallFollowerTest {
 	public void testGetPathLength2() {
 		controller.switchFromGeneratingToPlaying(mazeConfig2);
 		basicRobot.setController(controller);
-		wallFollower.setRobot(basicRobot);
-		wallFollower.setMaze(mazeConfig2);
+		wizard.setRobot(basicRobot);
+		wizard.setMaze(mazeConfig2);
 		BasicSensor sensorForward = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
 		try {
-			wallFollower.drive2Exit();
+			wizard.drive2Exit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertTrue(wallFollower.getPathLength() > 0);
+		assertTrue(wizard.getPathLength() > 0);
 	}
 }
+

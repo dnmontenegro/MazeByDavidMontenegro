@@ -30,6 +30,8 @@ public class BasicSensor implements DistanceSensor {
 
 	/**
 	 * This method checks the distance to an obstacle.
+	 * @param position of the robot, direction of the robot, and the battery level of the robot
+	 * @return the int value of the distance to an obstacle
 	 */
 	@Override
 	public int distanceToObstacle(int[] currentPosition, CardinalDirection currentDirection, float[] powersupply)
@@ -51,6 +53,7 @@ public class BasicSensor implements DistanceSensor {
 
 	/**
 	 * This method sets the maze to the parameter.
+	 * @param a maze
 	 */
 	@Override
 	public void setMaze(Maze maze) {
@@ -59,6 +62,7 @@ public class BasicSensor implements DistanceSensor {
 	
 	/**
 	 * This method sets the direction to the parameter.
+	 * @param direction to mount the sensor
 	 */
 	@Override
 	public void setSensorDirection(Direction mountedDirection) {
@@ -67,6 +71,7 @@ public class BasicSensor implements DistanceSensor {
 
 	/**
 	 * This method gets the energy amount needed for sensing.
+	 * @return the float energy amount
 	 */
 	@Override
 	public float getEnergyConsumptionForSensing() {

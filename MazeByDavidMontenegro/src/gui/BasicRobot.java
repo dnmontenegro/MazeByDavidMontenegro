@@ -42,6 +42,7 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method sets the controller to the parameter.
+	 * @param a controller
 	 */
 	@Override
 	public void setController(Controller controller) {
@@ -50,6 +51,7 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method adds a specified distance sensor in the specified direction.
+	 * @param a sensor and the direction to mount the sensor
 	 */
 	@Override
 	public void addDistanceSensor(DistanceSensor sensor, Direction mountedDirection) {
@@ -79,6 +81,7 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method gets the current position of the robot.
+	 * @return the position of the robot
 	 */
 	@Override
 	public int[] getCurrentPosition() throws Exception {
@@ -90,6 +93,7 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method gets the current direction of the robot.
+	 * @return the direction of the robot
 	 */
 	@Override
 	public CardinalDirection getCurrentDirection() {
@@ -98,6 +102,7 @@ public class BasicRobot implements Robot {
 	
 	/**
 	 * This method gets the battery level of the robot.
+	 * @return the float value of the battery level
 	 */
 	@Override
 	public float getBatteryLevel() {
@@ -114,6 +119,7 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method gets the energy amount needed for a full rotation of the robot.
+	 * @return the float energy amount
 	 */
 	@Override
 	public float getEnergyForFullRotation() {
@@ -122,6 +128,7 @@ public class BasicRobot implements Robot {
 	
 	/**
 	 * This method gets the energy amount needed for one step forward of the robot.
+	 * @return the float energy amount
 	 */
 	@Override
 	public float getEnergyForStepForward() {
@@ -130,6 +137,7 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method gets the odometer reading.
+	 * @return the value of the odometer
 	 */
 	@Override
 	public int getOdometerReading() {
@@ -146,6 +154,7 @@ public class BasicRobot implements Robot {
 	
 	/**
 	 * This method rotates the robot in the given direction.
+	 * @param the direction to turn
 	 */
 	@Override
 	public void rotate(Turn turn) {
@@ -178,6 +187,7 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method moves the robot for the given distance.
+	 * @param the distance to move
 	 */
 	@Override
 	public void move(int distance) {
@@ -214,6 +224,7 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method checks if the robot is at the exit.
+	 * @return true if at exit position, false if otherwise
 	 */
 	@Override
 	public boolean isAtExit() {
@@ -225,6 +236,7 @@ public class BasicRobot implements Robot {
 	
 	/**
 	 * This method checks if the robot inside a room.
+	 * @return true if inside a room, false if otherwise
 	 */
 	@Override
 	public boolean isInsideRoom() {
@@ -236,6 +248,7 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method checks if the robot is out of battery or stopped by an obstacle.
+	 * @return true if stopped, false if otherwise
 	 */
 	@Override
 	public boolean hasStopped() {
@@ -251,6 +264,8 @@ public class BasicRobot implements Robot {
 	
 	/**
 	 * This method checks the distance of the robot to an obstacle.
+	 * @param the direction to check
+	 * @return the int value of the distance of the obstacle from the robot
 	 */
 	@Override
 	public int distanceToObstacle(Direction direction) throws UnsupportedOperationException {
@@ -291,6 +306,8 @@ public class BasicRobot implements Robot {
 
 	/**
 	 * This method checks if the robot can see the exit from its current position and direction.
+	 * @param the direction to check
+	 * @return true if the robot can see the exit, false if otherwise
 	 */
 	@Override
 	public boolean canSeeThroughTheExitIntoEternity(Direction direction) throws UnsupportedOperationException {

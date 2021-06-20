@@ -1,6 +1,5 @@
 package gui;
 
-import generation.CardinalDirection;
 import generation.Maze;
 import generation.MazeContainer;
 import gui.Robot.Direction;
@@ -31,6 +30,7 @@ public class WallFollower implements RobotDriver {
 
 	/**
 	 * This method sets the robot to the parameter.
+	 * @param a robot
 	 */
 	@Override
 	public void setRobot(Robot r) {
@@ -39,6 +39,7 @@ public class WallFollower implements RobotDriver {
 
 	/**
 	 * This method sets the maze to the parameter.
+	 * @param a maze
 	 */
 	@Override
 	public void setMaze(Maze maze) {
@@ -47,6 +48,7 @@ public class WallFollower implements RobotDriver {
 
 	/**
 	 * This method leads the robot to the exit using the strategy of following the left hand wall.
+	 * @return true if exit is found, false if otherwise
 	 */
 	@Override
 	public boolean drive2Exit() throws Exception {
@@ -73,6 +75,7 @@ public class WallFollower implements RobotDriver {
 	
 	/**
 	 * This method leads the robot one step towards the exit using the strategy of following the left hand wall.
+	 * @return true if one step towards the exit is made, false if otherwise
 	 */
 	@Override
 	public boolean drive1Step2Exit() throws Exception {
@@ -105,6 +108,7 @@ public class WallFollower implements RobotDriver {
 
 	/**
 	 * This method gets the amount of energy used during traversal of the maze.
+	 * @return float amount of energy
 	 */
 	@Override
 	public float getEnergyConsumption() {
@@ -113,6 +117,7 @@ public class WallFollower implements RobotDriver {
 
 	/**
 	 * This method gets the amount of cells traveled during traversal of the maze.
+	 * @return int number of cells visited
 	 */
 	@Override
 	public int getPathLength() {
