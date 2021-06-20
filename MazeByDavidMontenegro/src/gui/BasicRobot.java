@@ -20,7 +20,7 @@ public class BasicRobot implements Robot {
 	private BasicSensor sensorSouth;
 	private BasicSensor sensorEast;
 	private BasicSensor sensorWest;
-	private float batteryLevel;
+	private float[] batteryLevel;
 	private int odometer;
 	private boolean stopped;
 	
@@ -217,8 +217,7 @@ public class BasicRobot implements Robot {
 	@Override
 	public void startFailureAndRepairProcess(Direction direction, int meanTimeBetweenFailures, int meanTimeToRepair)
 			throws UnsupportedOperationException {
-		//Throw new UnsupportedOperationException
-		
+		//Throw new UnsupportedOperationException	
 	}
 
 	/**
@@ -227,7 +226,6 @@ public class BasicRobot implements Robot {
 	@Override
 	public void stopFailureAndRepairProcess(Direction direction) throws UnsupportedOperationException {
 		//Throw new UnsupportedOperationException
-		
 	}
 	
 }

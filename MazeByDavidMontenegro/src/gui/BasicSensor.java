@@ -2,6 +2,7 @@ package gui;
 
 import generation.CardinalDirection;
 import generation.Maze;
+import generation.MazeContainer;
 import gui.Robot.Direction;
 /**
  * Class: BasicSensor
@@ -15,47 +16,74 @@ import gui.Robot.Direction;
  */
 
 public class BasicSensor implements DistanceSensor {
+	
+	private MazeContainer maze;
+	private CardinalDirection direction;
 
+	/**
+	 * Constructor that setups initial objects.
+	 */
 	public BasicSensor() {
-		// TODO Auto-generated constructor stub
+		//Set maze to null
+		//Set direction to null
 	}
 
+	/**
+	 * This method checks the distance to an obstacle.
+	 */
 	@Override
 	public int distanceToObstacle(int[] currentPosition, CardinalDirection currentDirection, float[] powersupply)
 			throws Exception {
-		// TODO Auto-generated method stub
+		//Check if battery level is 0
+		//Keep track of current position
+		//Keep track of distance traveled
+		//Keep checking for walls in the current direction
+		//If position being searched is exit then return max int value
+		//Else increase distance traveled and advance position
+		//Return the distance
 		return 0;
 	}
 
+	/**
+	 * This method sets the maze to the parameter.
+	 */
 	@Override
 	public void setMaze(Maze maze) {
-		// TODO Auto-generated method stub
-
+		//Set the maze to the parameter
 	}
-
+	
+	/**
+	 * This method sets the direction to the parameter.
+	 */
 	@Override
 	public void setSensorDirection(Direction mountedDirection) {
-		// TODO Auto-generated method stub
-
+		//Set the direction to the parameter
 	}
 
+	/**
+	 * This method gets the energy amount needed for sensing.
+	 */
 	@Override
 	public float getEnergyConsumptionForSensing() {
-		// TODO Auto-generated method stub
+		//Return 1.0f
 		return 0;
 	}
 
+	/**
+	 * This method throws an UnsupportedOperationException.
+	 */
 	@Override
 	public void startFailureAndRepairProcess(int meanTimeBetweenFailures, int meanTimeToRepair)
 			throws UnsupportedOperationException {
-		// TODO Auto-generated method stub
-
+		//Throw new UnsupportedOperationException
 	}
 
+	/**
+	 * This method throws an UnsupportedOperationException.
+	 */
 	@Override
 	public void stopFailureAndRepairProcess() throws UnsupportedOperationException {
-		// TODO Auto-generated method stub
-
+		//Throw new UnsupportedOperationException
 	}
 
 }
