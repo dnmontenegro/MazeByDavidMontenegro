@@ -1,6 +1,7 @@
 package gui;
 
 import generation.CardinalDirection;
+import gui.Constants.UserInput;
 /**
  * Class: BasicRobot
  * 
@@ -16,10 +17,10 @@ import generation.CardinalDirection;
 public class BasicRobot implements Robot {
 	
 	private Controller controller;
-	private BasicSensor sensorNorth;
-	private BasicSensor sensorSouth;
-	private BasicSensor sensorEast;
-	private BasicSensor sensorWest;
+	private BasicSensor sensorLeft;
+	private BasicSensor sensorRight;
+	private BasicSensor sensorForward;
+	private BasicSensor sensorBackward;
 	private float[] batteryLevel;
 	private int odometer;
 	private boolean stopped;
@@ -28,11 +29,15 @@ public class BasicRobot implements Robot {
 	 * Constructor that setups initial objects.
 	 */
 	public BasicRobot() {
-		//Set controller to null
-		//Set sensors to null
-		//Set battery level to 2000
-		//Set odometer to 0
-		//Set stopped to false
+		controller = null;
+		sensorLeft = null;
+		sensorRight = null;
+		sensorForward = null;
+		sensorBackward = null;
+		batteryLevel = new float[1];
+		batteryLevel[0] = 2000.0f;
+		odometer = 0;
+		stopped = false;
 	}
 
 	/**
@@ -40,17 +45,28 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public void setController(Controller controller) {
-		//Set the controller to the parameter
+		this.controller = controller;
 	}
 
-	
 	/**
 	 * This method adds a specified distance sensor in the specified direction.
 	 */
 	@Override
 	public void addDistanceSensor(DistanceSensor sensor, Direction mountedDirection) {
-		//Switch cases for the 4 directions
-		//For the given direction set correct BasicSensor to the given sensor parameter
+		switch(mountedDirection) {
+			case LEFT:
+				sensorLeft = (BasicSensor) sensor;
+				break;
+			case RIGHT:
+				sensorRight = (BasicSensor) sensor;
+				break;
+			case FORWARD:
+				sensorForward = (BasicSensor) sensor;
+				break;
+			case BACKWARD:
+				sensorBackward = (BasicSensor) sensor;
+				break;
+		}
 	}
 
 	/**
@@ -58,8 +74,10 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public int[] getCurrentPosition() throws Exception {
-		//Return array using controller's current position method
-		return null;
+		if(controller.getMazeConfiguration().isValidPosition(controller.getCurrentPosition()[0], controller.getCurrentPosition()[1]))
+			return controller.getCurrentPosition();
+		else 
+			throw new Exception();
 	}
 
 	/**
@@ -67,8 +85,7 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public CardinalDirection getCurrentDirection() {
-		//Return array using controller's current direction method
-		return null;
+		return controller.getCurrentDirection();
 	}
 	
 	/**
@@ -76,8 +93,7 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public float getBatteryLevel() {
-		//Return battery level object
-		return 0;
+		return batteryLevel[0];
 	}
 
 	/**
@@ -85,7 +101,7 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public void setBatteryLevel(float level) {
-		//Set the battery level to the parameter
+		batteryLevel[0] = level;
 	}
 
 	/**
@@ -93,8 +109,7 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public float getEnergyForFullRotation() {
-		//Return 12.0f
-		return 0;
+		return 12.0f;
 	}
 	
 	/**
@@ -102,8 +117,7 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public float getEnergyForStepForward() {
-		//Return 4.0f
-		return 0;
+		return 4.0f;
 	}
 
 	/**
@@ -111,8 +125,7 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public int getOdometerReading() {
-		//Return odometer object
-		return 0;
+		return odometer;
 	}
 
 	/**
@@ -120,7 +133,7 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public void resetOdometer() {
-		//Set odometer to 0
+		odometer = 0;
 	}
 	
 	/**
@@ -128,11 +141,31 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public void rotate(Turn turn) {
-		//Check if robot has stopped
-		//Switch cases for the left, right, and around
-		//For each check if robot has enough energy
-		//If it has enough energy turn the robot
-		//Decrease battery level
+		if(hasStopped() == false) {
+			switch(turn) {
+				case LEFT:
+					if(getBatteryLevel() > getEnergyForFullRotation()*(1/4)) {
+						controller.keyDown(UserInput.LEFT, 0);
+						setBatteryLevel(getBatteryLevel() - getEnergyForFullRotation()*(1/4));
+					}
+					break;
+				case RIGHT:
+					if(getBatteryLevel() > getEnergyForFullRotation()*(1/4)) {
+						controller.keyDown(UserInput.RIGHT, 0);
+						setBatteryLevel(getBatteryLevel() - getEnergyForFullRotation()*(1/4));
+					}
+					break;
+				case AROUND:
+					if(getBatteryLevel() > getEnergyForFullRotation()*(1/2)) {
+						controller.keyDown(UserInput.LEFT, 0);
+						controller.keyDown(UserInput.LEFT, 0);
+						setBatteryLevel(getBatteryLevel() - getEnergyForFullRotation()*(1/2));
+					}
+					break;
+			}
+		}
+		else 
+			stopped = true;
 	}
 
 	/**
@@ -140,11 +173,17 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public void move(int distance) {
-		//Check if robot has stopped
-		//For each step check if robot has enough energy
-		//If it has enough energy move the robot
-		//Decrease battery level
-		//Increase odometer
+		for (int i = 0; i < distance; i++) {
+			if(hasStopped() == false && getBatteryLevel() > getEnergyForStepForward()) {
+				controller.keyDown(UserInput.JUMP, 0);
+				setBatteryLevel(getBatteryLevel() - getEnergyForStepForward());
+				odometer++;
+			}
+			else {
+				stopped = true;
+				break;
+			}
+		}
 	}
 
 	/**
@@ -152,10 +191,13 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public void jump() {
-		//Check if robot has stopped
-		//Make the robot jump
-		//Increase odometer
-		
+		if(hasStopped() == false) {
+			controller.keyDown(UserInput.JUMP, 0);
+			odometer++;
+		}
+		else {
+			stopped = true;
+		}
 	}
 
 	/**
@@ -163,20 +205,21 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public boolean isAtExit() {
-		//Check if robot's position is at exit.
-		//Return false otherwise
-		return false;
+		if(controller.getMazeConfiguration().getDistanceToExit(controller.getCurrentPosition()[0], controller.getCurrentPosition()[1]) == 1)
+			return true;
+		else
+			return false;
 	}
-
 	
 	/**
 	 * This method checks if the robot inside a room.
 	 */
 	@Override
 	public boolean isInsideRoom() {
-		//Check if robot's position is inside a room
-		//Return false otherwise
-		return false;
+		if(controller.getMazeConfiguration().getFloorplan().isInRoom(controller.getCurrentPosition()[0], controller.getCurrentPosition()[1]) == true)
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -184,10 +227,14 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public boolean hasStopped() {
-		//Check if battery level is 0
-		//Check if robot has stopped
-		//Return false otherwise
-		return false;
+		if(getBatteryLevel() == 0) {
+			stopped = true;
+			return true;
+		}
+		else if(stopped == true)
+			return true;
+		else
+			return false;
 	}
 	
 	/**
@@ -195,10 +242,39 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public int distanceToObstacle(Direction direction) throws UnsupportedOperationException {
-		//Switch cases for the 4 directions
-		//For the given direction check if a distance sensor is working
-		//Use sensor's distance to obstacle method
-		return 0;
+		CardinalDirection sensorDirection = getCurrentDirection();
+		int distance = 0;
+		switch(direction) {
+			case LEFT:
+				try {
+					distance = sensorLeft.distanceToObstacle(getCurrentPosition(), sensorDirection.oppositeDirection().rotateClockwise(), batteryLevel);
+				} catch (Exception e) {
+					throw new UnsupportedOperationException();
+				}
+				break;
+			case RIGHT:
+				try {
+					distance = sensorRight.distanceToObstacle(getCurrentPosition(), sensorDirection.rotateClockwise(), batteryLevel);
+				} catch (Exception e) {
+					throw new UnsupportedOperationException();
+				}
+				break;
+			case FORWARD:
+				try {
+					distance = sensorForward.distanceToObstacle(getCurrentPosition(), sensorDirection, batteryLevel);
+				} catch (Exception e) {
+					throw new UnsupportedOperationException();
+				}
+				break;
+			case BACKWARD:
+				try {
+					distance = sensorBackward.distanceToObstacle(getCurrentPosition(), sensorDirection.oppositeDirection(), batteryLevel);
+				} catch (Exception e) {
+					throw new UnsupportedOperationException();
+				}
+				break;
+		}
+		return distance;
 	}
 
 	/**
@@ -206,9 +282,10 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public boolean canSeeThroughTheExitIntoEternity(Direction direction) throws UnsupportedOperationException {
-		//Check if distance to obstacle is max int value
-		//Return false otherwise
-		return false;
+		if(distanceToObstacle(direction) == Integer.MAX_VALUE)
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -217,7 +294,7 @@ public class BasicRobot implements Robot {
 	@Override
 	public void startFailureAndRepairProcess(Direction direction, int meanTimeBetweenFailures, int meanTimeToRepair)
 			throws UnsupportedOperationException {
-		//Throw new UnsupportedOperationException	
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -225,7 +302,7 @@ public class BasicRobot implements Robot {
 	 */
 	@Override
 	public void stopFailureAndRepairProcess(Direction direction) throws UnsupportedOperationException {
-		//Throw new UnsupportedOperationException
+		throw new UnsupportedOperationException();
 	}
 	
 }
