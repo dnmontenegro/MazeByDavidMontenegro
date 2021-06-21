@@ -185,7 +185,7 @@ public class BasicRobotTest {
 		assertFalse(basicRobot.hasStopped());
 		basicRobot.rotate(Turn.RIGHT);
 		basicRobot.move(1);
-		assertEquals(1996.0f, basicRobot.getBatteryLevel());
+		assertEquals(1993.0f, basicRobot.getBatteryLevel());
 	}
 	
 	/**

@@ -161,22 +161,22 @@ public class BasicRobot implements Robot {
 		if(hasStopped() == false) {
 			switch(turn) {
 				case LEFT:
-					if(getBatteryLevel() > getEnergyForFullRotation()*(1/4)) {
+					if(getBatteryLevel() > 3.0f) {
 						controller.keyDown(UserInput.LEFT, 0);
-						setBatteryLevel(getBatteryLevel() - getEnergyForFullRotation()*(1/4));
+						setBatteryLevel(getBatteryLevel() - 3.0f);
 					}
 					break;
 				case RIGHT:
-					if(getBatteryLevel() > getEnergyForFullRotation()*(1/4)) {
+					if(getBatteryLevel() > 3.0f) {
 						controller.keyDown(UserInput.RIGHT, 0);
-						setBatteryLevel(getBatteryLevel() - getEnergyForFullRotation()*(1/4));
+						setBatteryLevel(getBatteryLevel() - 3.0f);
 					}
 					break;
 				case AROUND:
-					if(getBatteryLevel() > getEnergyForFullRotation()*(1/2)) {
+					if(getBatteryLevel() > 6.0f) {
 						controller.keyDown(UserInput.LEFT, 0);
 						controller.keyDown(UserInput.LEFT, 0);
-						setBatteryLevel(getBatteryLevel() - getEnergyForFullRotation()*(1/2));
+						setBatteryLevel(getBatteryLevel() - 6.0f);
 					}
 					break;
 			}

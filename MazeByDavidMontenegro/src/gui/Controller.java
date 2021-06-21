@@ -191,11 +191,14 @@ public class Controller {
 			robot.addDistanceSensor(sensorLeft, Direction.LEFT);
         	driver.setRobot(robot);
         	driver.setMaze(config);
+        	boolean finished = false;
         	try {
-				driver.drive2Exit();
+        		finished = driver.drive2Exit();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}	
+        	if(finished == true)
+        		this.switchFromPlayingToWinning(driver.getPathLength());
         }
     }
     /**

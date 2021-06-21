@@ -112,12 +112,14 @@ public class WallFollowerTest {
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
+		basicRobot.setBatteryLevel(10000.0f);
 		try {
 			wallFollower.drive2Exit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		assertTrue(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD));
+		
 	}
 	
 	/**
@@ -134,12 +136,13 @@ public class WallFollowerTest {
 		basicRobot.addDistanceSensor(sensorForward, Direction.FORWARD);
 		BasicSensor sensorLeft = new BasicSensor();
 		basicRobot.addDistanceSensor(sensorLeft, Direction.LEFT);
+		basicRobot.setBatteryLevel(10000.0f);
 		try {
 			wallFollower.drive2Exit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertFalse(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD));
+		assertTrue(basicRobot.canSeeThroughTheExitIntoEternity(Direction.FORWARD));
 	}
 	
 	/**
