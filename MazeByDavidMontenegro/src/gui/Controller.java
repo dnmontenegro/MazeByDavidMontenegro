@@ -189,6 +189,7 @@ public class Controller {
 			robot.addDistanceSensor(sensorForward, Direction.FORWARD);
 			BasicSensor sensorLeft = new BasicSensor();
 			robot.addDistanceSensor(sensorLeft, Direction.LEFT);
+			robot.setBatteryLevel(2000.0f);
         	driver.setRobot(robot);
         	driver.setMaze(config);
         	boolean finished = false;
